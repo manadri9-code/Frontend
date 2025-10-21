@@ -1,0 +1,66 @@
+/* Un reseteo simple para quitar márgenes por defecto */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #FFFFFF; /* Fondo BLANCO */
+  color: #000000; /* Texto NEGRO para contrastar */
+}
+
+/* Clase principal para nuestra aplicación */
+.app-container {
+  width: 100%;
+  max-width: 1200px; /* Ancho máximo para el contenido */
+  margin: 0 auto; /* Centra el contenido */
+  padding: 0 1.5rem; /* Relleno en los lados */
+}
+
+/* Estilos básicos para inputs */
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 1rem;
+  background-color: #f0f0f0; /* Fondo gris claro para inputs */
+  border: 1px solid #ccc; /* Borde gris */
+  border-radius: 4px;
+  color: #000000; /* Texto negro en los inputs */
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Estilos para el botón principal (negro con texto blanco) */
+.btn-primary {
+  background-color: #000000; /* Negro */
+  color: #FFFFFF; /* Blanco */
+  border: 1px solid #000000; /* Borde negro */
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  width: 100%; /* El botón ocupa todo el ancho del formulario */
+}
+
+.btn-primary:hover {
+  background-color: #333333; /* Un gris oscuro al pasar el ratón */
+  border-color: #333333;
+}
+
+/* Estilos para enlaces */
+a {
+  color: #000000; /* Enlaces negros por defecto */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

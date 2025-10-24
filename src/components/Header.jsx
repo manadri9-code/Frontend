@@ -93,6 +93,10 @@ const Header = () => {
                     <>
                         <Link to="/my-account" style={linkStyle}>MI CUENTA</Link>
                         <button onClick={handleLogout} style={linkStyle}>LOGOUT</button>
+                        <Link to="/cart" style={linkStyle}>
+                            {/* Puedes usar un emoji o un ícono SVG aquí */}
+                            🛒
+                        </Link>
                     </>
                 ) : (
                     <Link
@@ -103,6 +107,7 @@ const Header = () => {
                     >
                         LOGIN
                     </Link>)}
+
             </div>
 
         </header>

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 // Este componente recibe un objeto 'product' con toda su información
 const ProductCard = ({ product }) => {
     const cardStyle = {
@@ -26,6 +26,8 @@ const ProductCard = ({ product }) => {
         padding: '0.5rem 1rem',
         cursor: 'pointer',
         marginTop: '1rem',
+        textDecoration: 'none', 
+        display: 'inline-block',
     };
 
     return (
@@ -39,7 +41,9 @@ const ProductCard = ({ product }) => {
             <p>${product.precio}</p>
             {/* Mostramos la calificación promedio que nos da el backend */}
             <p>⭐ {product.calificacion_promedio}</p>
-            <button style={buttonStyle}>Ver Producto</button>
+            <Link to={`/product/${product.id}`} style={buttonStyle}>
+                Ver Producto
+            </Link>
         </div>
     );
 };

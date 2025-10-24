@@ -17,3 +17,13 @@ export const getAllProducts = async () => {
         return [];
     }
 };
+export const getProductById = async (id) => {
+    try {
+        // Llama al endpoint que nos da un producto y sus reseñas
+        const response = await apiClient.get(`/products/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener el producto:", error);
+        throw error.response.data;
+    }
+};

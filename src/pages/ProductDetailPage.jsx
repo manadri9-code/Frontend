@@ -34,7 +34,7 @@ const ProductDetailPage = () => {
                 setLoading(true);
                 const data = await getProductById(id);
                 setProduct(data);
-                setReviews(productData.resenas || []);
+                setReviews(data.resenas || []);
                 setError('');
                 if (isLoggedIn && token) {
                     const favoritesData = await getAllFavorites(token);

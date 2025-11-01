@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getProductById } from '../api/products';
 import { addFavorite, removeFavorite, getAllFavorites } from '../api/favorites';
-import { getCart, updateCartItem} from '../api/cart';
+import { getCart, updateCartItem } from '../api/cart';
 import { addReview, deleteReview } from '../api/reviews'; // <-- NUEVO
 import { useAuth } from '../context/AuthContext';
 import './ProductDetailPage.css'; // Crearemos este archivo para el estilo
-import { useCallback } from 'react';
+
 const ProductDetailPage = () => {
     const { id } = useParams(); // Obtiene el "id" de la URL
     const navigate = useNavigate();
@@ -56,14 +56,15 @@ const ProductDetailPage = () => {
 
             }
         } catch (err) {
-            setError('Error al cargar el producto.');
+            console.error("Error detallado al cargar producto:", err); // <-- AÑADE ESTO
+            setError('Error al cargar el producto. Revisa la consola.');
         } finally {
             setLoading(false);
         }
-    },[id, isLoggedIn, token,user]);
+    }, [id, isLoggedIn, token, user]);
     useEffect(() => {
         fetchProduct();
-    },[fetchProduct]); // Se ejecuta cada vez que el 'id' de la URL cambia
+    }, [fetchProduct]); // Se ejecuta cada vez que el 'id' de la URL cambia
 
     const handleFavoriteClick = async () => {
         // 1. VALIDACIÓN: Si no está logueado, lo mandamos al login
@@ -93,7 +94,7 @@ const ProductDetailPage = () => {
         }
     };
 
-// --- MANEJADOR DEL CARRITO ACTUALIZADO ---
+    // --- MANEJADOR DEL CARRITO ACTUALIZADO ---
     const handleCartSubmit = async () => {
         if (!isLoggedIn) {
             navigate('/login');
@@ -112,7 +113,7 @@ const ProductDetailPage = () => {
         }
     };
 
-// --- NUEVOS MANEJADORES DE RESEÑAS ---}
+    // --- NUEVOS MANEJADORES DE RESEÑAS ---}
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -152,8 +153,8 @@ const ProductDetailPage = () => {
             options.push(<option key={i} value={i}>{i}</option>);
         }
         return (
-            <select 
-                value={quantity} 
+            <select
+                value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 style={{ width: '100%', padding: '0.5rem', margin: '0.5rem 0' }}
             >
@@ -177,15 +178,14 @@ const ProductDetailPage = () => {
             {/* --- Columna Derecha: Info --- */}
             <div className="product-info-container">
                 <h1 className="product-title">{product.nombre}</h1>
-                <p className="product-artist">{product.descripcion.split(' ').slice(0, 2).join(' ')}</p> {/* Simula el artista */}
-
+                <p className="product-artist">{(product.descripcion || '').split(' ').slice(0, 2).join(' ')}</p>
                 <h2 className="product-price">${product.precio}</h2>
                 {/* --- STOCK Y CANTIDAD --- */}
                 <p><strong>Disponibles:</strong> {product.stock}</p>
                 {renderQuantitySelector()}
                 {/* --- BOTONES DE ACCIÓN --- */}
-                <button 
-                    className="btn-primary" 
+                <button
+                    className="btn-primary"
                     onClick={handleCartSubmit}
                     disabled={isCartLoading || product.stock === 0}
                 >
@@ -248,7 +248,7 @@ const ProductDetailPage = () => {
                                 <p>"{review.comentario}"</p>
                                 {/* Botón de borrar si es nuestra reseña */}
                                 {isLoggedIn && userReviewId === review.id && (
-                                    <button 
+                                    <button
                                         onClick={() => handleReviewDelete(review.id)}
                                         style={{ background: 'none', border: 'none', color: 'red', cursor: 'pointer', padding: 0 }}
                                     >

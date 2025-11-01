@@ -63,7 +63,7 @@ const ProductDetailPage = () => {
     };
     useEffect(() => {
         fetchProduct();
-    }, [fetchProduct,id, isLoggedIn, token]); // Se ejecuta cada vez que el 'id' de la URL cambia
+    }, [id, isLoggedIn, token]); // Se ejecuta cada vez que el 'id' de la URL cambia
 
     const handleFavoriteClick = async () => {
         // 1. VALIDACIÓN: Si no está logueado, lo mandamos al login

@@ -28,14 +28,14 @@ const ProductDetailPage = () => {
     const [userReviewId, setUserReviewId] = useState(null);
     const [reviews, setReviews] = useState([]); // Para poder actualizarlas dinámicamente
     // 
-    const fetchProduct = async () => {
+    const fetchProduct = useCallback(async () => {
         try {
             setLoading(true);
             const data = await getProductById(id);
             setProduct(data);
             setReviews(data.resenas || []);
             setError('');
-            if (isLoggedIn && token) {
+            if (isLoggedIn && token && user) {
                 const favoritesData = await getAllFavorites(token);
                 const isProductFavorite = favoritesData.some(fav => fav.id === Number(id));
                 setIsFavorite(isProductFavorite);
@@ -60,10 +60,10 @@ const ProductDetailPage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    },[id, isLoggedIn, token,user]);
     useEffect(() => {
         fetchProduct();
-    }, [id, isLoggedIn, token]); // Se ejecuta cada vez que el 'id' de la URL cambia
+    },[fetchProduct]); // Se ejecuta cada vez que el 'id' de la URL cambia
 
     const handleFavoriteClick = async () => {
         // 1. VALIDACIÓN: Si no está logueado, lo mandamos al login

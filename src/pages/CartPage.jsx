@@ -112,8 +112,8 @@ const CartPage = () => {
                                     ${(parseFloat(item.precio) * item.cantidad).toFixed(2)}
                                 </td>
                                 <td style={{ textAlign: 'right' }}>
-                                    <a 
-                                        href="#" 
+                                    <a
+                                        href="#"
                                         className="cart-item-remove"
                                         onClick={(e) => {
                                             e.preventDefault();
@@ -132,9 +132,9 @@ const CartPage = () => {
             {items.length > 0 && (
                 <div className="cart-footer">
                     <span className="cart-subtotal">SUBTOTAL: ${subtotal.toFixed(2)}</span>
-                    <button className="btn-primary" onClick={() => navigate('/checkout')}>
+                    <Link to="/checkout" className="btn-primary" style={{ textDecoration: 'none', padding: '0.75rem 1.5rem' }}>
                         PROCEED TO CHECKOUT
-                    </button>
+                    </Link>
                 </div>
             )}
         </div>

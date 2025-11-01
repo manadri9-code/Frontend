@@ -1,0 +1,62 @@
+.favorites-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.favorites-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.fav-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.fav-table th {
+  text-align: left;
+  padding-bottom: 1rem;
+  color: #555;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.fav-table td {
+  padding: 1rem 0;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+}
+
+.fav-item-product {
+  display: flex;
+  align-items: center;
+}
+
+.fav-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 1.5rem;
+}
+
+.fav-item-name {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.fav-item-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.fav-item-actions .btn-secondary,
+.fav-item-actions .btn-danger {
+  width: auto; /* Para que no ocupen el 100% */
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}

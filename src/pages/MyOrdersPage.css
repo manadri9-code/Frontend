@@ -1,0 +1,82 @@
+.my-orders-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.tabs-container {
+  display: flex;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 2rem;
+}
+
+.tab-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #888;
+  position: relative;
+}
+
+.tab-button.active {
+  color: #000;
+}
+
+/* Línea azul debajo del tab activo */
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; /* Alineado con el borde del contenedor */
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #007bff; /* Un color de acento */
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th {
+  text-align: left;
+  padding-bottom: 1rem;
+  color: #555;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.orders-table td {
+  padding: 1.25rem 0.5rem; /* Más padding vertical */
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+.order-actions button,
+.order-actions .btn-secondary {
+  width: auto;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+}
+
+/* Fila deshabilitada para canceladas/devueltas */
+.order-row.disabled {
+  opacity: 0.6;
+  background-color: #f9f9f9;
+}
+
+.status-message {
+  font-weight: bold;
+  font-style: italic;
+}
+.status-Cancelada { color: #d9534f; }
+.status-Devolución { color: #f0ad4e; }
+.status-Devuelto { color: #5bc0de; }

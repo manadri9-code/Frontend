@@ -2,13 +2,16 @@ import React, { useState } from 'react'; // Importamos useState
 
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-
+import UserMenu from './UserMenu';
 const Header = () => {
     // Estado para manejar el hover del botón Login
     const [isLoginHovered, setIsLoginHovered] = useState(false);
     const { isLoggedIn, logout, isLoading } = useAuth(); // <-- 2. OBTÉN EL ESTADO Y FUNCIONES
     const navigate = useNavigate();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const handleLogout = () => {
+        setIsMenuOpen(false);
         logout();
         navigate('/login'); // Redirige al login después de cerrar sesión
     };
@@ -70,7 +73,13 @@ const Header = () => {
     const dynamicLoginStyle = isLoginHovered
         ? { ...loginLinkStyle, ...loginLinkHoverStyle }
         : loginLinkStyle;
-
+    // Estilo para el botón de "Mi Cuenta"
+    const accountButtonStyle = {
+        ...linkStyle,
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer'
+    };
     // --- RENDER ---
     if (isLoading) {
         return null; // O un spinner de carga
@@ -84,19 +93,31 @@ const Header = () => {
                     <img src="/logo.png" alt="Logo de la Tienda" style={logoStyle} />
                 </Link>
                 <Link to="/" style={linkStyle}>HOME</Link>
-                <Link to="/contact" style={linkStyle}>CONTACT</Link>
+
             </div>
 
             {/* GRUPO DERECHO */}
             <div style={rightNavStyle}>
                 {isLoggedIn ? (
                     <>
-                        <Link to="/my-account" style={linkStyle}>MI CUENTA</Link>
-                        <button onClick={handleLogout} style={linkStyle}>LOGOUT</button>
+                        {/* --- 4. LÓGICA DEL MENÚ --- */}
+                        <button
+                            onClick={() => setIsMenuOpen(!isMenuOpen)} // Toggles
+                            style={accountButtonStyle}
+                        >
+                            MI CUENTA ▾
+                        </button>
                         <Link to="/cart" style={linkStyle}>
-                            {/* Puedes usar un emoji o un ícono SVG aquí */}
-                            🛒
+                            CARRITO 🛒
                         </Link>
+
+                        {/* Renderizado condicional del menú */}
+                        {isMenuOpen && (
+                            <UserMenu
+                                handleLogout={handleLogout}
+                                closeMenu={() => setIsMenuOpen(false)}
+                            />
+                        )}
                     </>
                 ) : (
                     <Link

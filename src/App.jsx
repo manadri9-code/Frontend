@@ -6,23 +6,31 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
-
+import FavoritesPage from './pages/FavoritesPage'; // <-- 1. Importa
+import ProtectedRoute from './components/ProtectedRoute'; // <-- 2. Importa
+import CheckoutPage from './pages/CheckoutPage';
+import MyOrdersPage from './pages/MyOrdersPage';
 function App() {
   return (
-    // Usamos la clase del CSS que creamos
+
     <div className="app-container">
       <Header />
-
-      {/* Routes define el área donde cambiarán las páginas */}
+    
       <Routes>
-        {/* Route define una página específica */}
+        {/* Rutas Públicas */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
-        <Route path="/cart" element={<CartPage />} />
 
-        {/* Ruta comodín para páginas no encontradas */}
+        {/* Rutas Protegidas */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/my-orders" element={<MyOrdersPage />} />
+          {/* <Route path="/profile" element={...} /> */}
+        </Route>
         <Route path="*" element={<h1>404: Página No Encontrada</h1>} />
       </Routes>
     </div>

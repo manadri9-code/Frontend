@@ -1,0 +1,115 @@
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Lado izquierdo más ancho */
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.checkout-summary {
+  border: 1px solid #e0e0e0;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+.summary-item:last-child {
+  border-bottom: none;
+}
+.summary-item-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+.summary-item-info {
+  flex-grow: 1;
+}
+.summary-item-info h4 {
+  margin: 0 0 0.25rem 0;
+}
+.summary-item-price {
+  font-weight: bold;
+}
+.summary-item-total {
+  font-weight: bold;
+  font-size: 1.1rem;
+  min-width: 80px;
+  text-align: right;
+}
+
+.checkout-payment {
+  position: sticky; /* Se queda fijo al hacer scroll */
+  top: 2rem;
+}
+
+.payment-option {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.payment-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.payment-header input[type="radio"] { /* Ocultamos el radio default */
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+/* Checkbox personalizado */
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #555;
+  border-radius: 4px;
+  margin-right: 0.75rem;
+  display: inline-block;
+  position: relative;
+}
+/* La "palomita" */
+.payment-header input[type="radio"]:checked + .custom-checkbox::after {
+  content: '✔';
+  position: absolute;
+  top: -2px;
+  left: 2px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.payment-logo {
+  height: 25px;
+  margin-left: auto;
+}
+.payment-form {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f0f0f0;
+}
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+.form-row > div {
+  flex: 1;
+}
+
+.payment-total {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: right;
+  margin: 1.5rem 0;
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem 0;
+}

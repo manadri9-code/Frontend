@@ -17,11 +17,18 @@ export const AuthProvider = ({ children }) => {
         if (storedToken) {
             try {
                 const decodedUser = jwtDecode(storedToken);
+                if (decodedUser.exp * 1000 < Date.now()) {
+                    // Si el token expiró, bórralo
+                    localStorage.removeItem('token');
+                    throw new Error('Token expirado');
+                }
                 setUser(decodedUser.user); // Extrae el { user: { id: ... } } del payload
                 setToken(storedToken);
             } catch (error) {
-                // Si el token es inválido o expiró
+                // Si el token está expirado o malformado, lo borramos
                 localStorage.removeItem('token');
+                setUser(null);
+                setToken(null);
             }
         }
         setIsLoading(false); // Terminamos de cargar
@@ -48,13 +55,13 @@ export const AuthProvider = ({ children }) => {
 
     // 3. Devolvemos el Proveedor con los valores que queremos compartir
     return (
-        <AuthContext.Provider value={{ 
-            token, 
-            user, 
+        <AuthContext.Provider value={{
+            token,
+            user,
             isLoggedIn: !!user, // !!user convierte el objeto user en un booleano (true si existe, false si es null)
             isLoading,
-            login, 
-            logout 
+            login,
+            logout
         }}>
             {children}
         </AuthContext.Provider>

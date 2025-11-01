@@ -125,7 +125,7 @@ const ProductDetailPage = () => {
             // Limpiar formulario y recargar datos
             setReviewComentario('');
             setReviewPuntuacion(5);
-            fetchProductData(); // Recargamos todo para mostrar la nueva reseña
+            fetchProduct(); // Recargamos todo para mostrar la nueva reseña
         } catch (err) {
             alert(err.message);
         }
@@ -135,7 +135,7 @@ const ProductDetailPage = () => {
         if (!window.confirm('¿Estás seguro de que quieres eliminar tu reseña?')) return;
         try {
             await deleteReview(reviewId, token);
-            fetchProductData(); // Recargamos para quitar la reseña
+            fetchProduct(); // Recargamos para quitar la reseña
         } catch (err) {
             alert(err.message);
         }

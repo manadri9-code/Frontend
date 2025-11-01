@@ -18,16 +18,16 @@ export const getCart = async (token) => {
 };
 
 // AÑADIR un item al carrito
-export const addToCart = async (productId, token) => {
+export const updateCartItem = async (productId, quantity, token) => {
     try {
         const response = await apiClient.post(
-            `/cart/${productId}`,
-            null,
+            '/cart', // El endpoint ahora es /cart, no /cart/:id
+            { producto_id: productId, cantidad: quantity }, // Enviamos el body
             { headers: { 'x-auth-token': token } }
         );
         return response.data;
     } catch (error) {
-        console.error("Error al añadir al carrito:", error.response.data);
+        console.error("Error al actualizar el carrito:", error.response.data);
         throw error.response.data;
     }
 };

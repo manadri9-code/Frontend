@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getCart, removeFromCart } from '../api/cart';
+import { getCart, removeFromCart, updateCartItem } from '../api/cart';
 import { useAuth } from '../context/AuthContext';
 import './CartPage.css'; // Importamos los estilos
 
@@ -43,7 +43,22 @@ const CartPage = () => {
             alert(error.message || "No se pudo eliminar el producto.");
         }
     };
-
+    const handleQuantityChange = async (productId, newQuantity, stock) => {
+        if (newQuantity <= 0) {
+            handleRemove(productId); // Si baja a 0, eliminar
+            return;
+        }
+        if (newQuantity > stock) {
+            alert(`Solo quedan ${stock} unidades disponibles.`);
+            return;
+        }
+        try {
+            await updateCartItem(productId, newQuantity, token);
+            fetchCart(); // Recargar el carrito
+        } catch (error) {
+            alert(error.message);
+        }
+    };
     // Calculamos el subtotal
     const subtotal = items.reduce((acc, item) => acc + parseFloat(item.precio), 0);
 
@@ -81,10 +96,20 @@ const CartPage = () => {
                                     <span className="cart-item-name">{item.nombre}</span>
                                 </td>
                                 <td className="cart-item-quantity">
-                                    1 {/* Como es un toggle, la cantidad siempre es 1 */}
-                                </td>
+                                    {/* --- SELECTOR DE CANTIDAD --- */}
+                                    <select
+                                        value={item.cantidad}
+                                        onChange={(e) => handleQuantityChange(item.id, Number(e.target.value), item.stock)}
+                                        style={{ padding: '0.25rem' }}
+                                    >
+                                        {/* Genera opciones hasta el stock */}
+                                        {Array.from({ length: item.stock }, (_, i) => i + 1).map(q => (
+                                            <option key={q} value={q}>{q}</option>
+                                        ))}
+                                    </select>                                </td>
                                 <td className="cart-item-total">
-                                    ${item.precio}
+                                    {/* --- PRECIO TOTAL (PRECIO * CANTIDAD) --- */}
+                                    ${(parseFloat(item.precio) * item.cantidad).toFixed(2)}
                                 </td>
                                 <td style={{ textAlign: 'right' }}>
                                     <a 

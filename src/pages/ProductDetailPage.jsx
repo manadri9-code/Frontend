@@ -6,7 +6,7 @@ import { getCart, updateCartItem} from '../api/cart';
 import { addReview, deleteReview } from '../api/reviews'; // <-- NUEVO
 import { useAuth } from '../context/AuthContext';
 import './ProductDetailPage.css'; // Crearemos este archivo para el estilo
-
+import { useCallback } from 'react';
 const ProductDetailPage = () => {
     const { id } = useParams(); // Obtiene el "id" de la URL
     const navigate = useNavigate();
@@ -28,42 +28,42 @@ const ProductDetailPage = () => {
     const [userReviewId, setUserReviewId] = useState(null);
     const [reviews, setReviews] = useState([]); // Para poder actualizarlas dinámicamente
     // 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                setLoading(true);
-                const data = await getProductById(id);
-                setProduct(data);
-                setReviews(data.resenas || []);
-                setError('');
-                if (isLoggedIn && token) {
-                    const favoritesData = await getAllFavorites(token);
-                    const isProductFavorite = favoritesData.some(fav => fav.id === Number(id));
-                    setIsFavorite(isProductFavorite);
+    const fetchProduct = async () => {
+        try {
+            setLoading(true);
+            const data = await getProductById(id);
+            setProduct(data);
+            setReviews(data.resenas || []);
+            setError('');
+            if (isLoggedIn && token) {
+                const favoritesData = await getAllFavorites(token);
+                const isProductFavorite = favoritesData.some(fav => fav.id === Number(id));
+                setIsFavorite(isProductFavorite);
 
-                    const cartData = await getCart(token);
-                    const itemInCart = cartData.find(item => item.id === data.id);
-                    setQuantity(itemInCart ? itemInCart.cantidad : 1); // Pone la cantidad del carrito o 1
+                const cartData = await getCart(token);
+                const itemInCart = cartData.find(item => item.id === data.id);
+                setQuantity(itemInCart ? itemInCart.cantidad : 1); // Pone la cantidad del carrito o 1
 
-                    // Cargar estado de reseñas
-                    const userReview = data.resenas.find(r => r.usuario_id === user.id);
-                    if (userReview) {
-                        setUserHasReviewed(true);
-                        setUserReviewId(userReview.id); // Guardamos el ID de nuestra reseña
-                    } else {
-                        setUserHasReviewed(false);
-                        setUserReviewId(null);
-                    }
-
+                // Cargar estado de reseñas
+                const userReview = data.resenas.find(r => r.usuario_id === user.id);
+                if (userReview) {
+                    setUserHasReviewed(true);
+                    setUserReviewId(userReview.id); // Guardamos el ID de nuestra reseña
+                } else {
+                    setUserHasReviewed(false);
+                    setUserReviewId(null);
                 }
-            } catch (err) {
-                setError('Error al cargar el producto.');
-            } finally {
-                setLoading(false);
+
             }
-        };
+        } catch (err) {
+            setError('Error al cargar el producto.');
+        } finally {
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
         fetchProduct();
-    }, [id, isLoggedIn, token]); // Se ejecuta cada vez que el 'id' de la URL cambia
+    }, [fetchProduct,id, isLoggedIn, token]); // Se ejecuta cada vez que el 'id' de la URL cambia
 
     const handleFavoriteClick = async () => {
         // 1. VALIDACIÓN: Si no está logueado, lo mandamos al login

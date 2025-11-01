@@ -9,6 +9,7 @@ const LoginPage = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate(); // Hook para la redirección
     const { login } = useAuth();
+    const [showPassword, setShowPassword] = useState(false);
 
 
     const handleSubmit = async (e) => {
@@ -16,16 +17,16 @@ const LoginPage = () => {
         setError('');
 
         try {
-            const data = await loginUser({ 
-                correo_electronico: email, 
-                password: password 
+            const data = await loginUser({
+                correo_electronico: email,
+                password: password
             });
 
             // ¡ÉXITO! Guardamos el token en el LocalStorage
             login(data.token);
             console.log("Login exitoso! Token guardado:", data.token);
             // Redirigir al usuario a la página principal después del login
-            navigate('/'); 
+            navigate('/');
 
         } catch (err) {
             setError(err.message || 'Error al iniciar sesión');
@@ -61,27 +62,50 @@ const LoginPage = () => {
         display: 'block', // Para que cada enlace ocupe su propia línea
         fontSize: '0.9rem',
     };
+    // --- 3. AÑADE LOS ESTILOS PARA EL TOGGLE ---
+    const passwordContainerStyle = {
+        position: 'relative',
+        width: '100%',
+    };
+
+    const passwordToggleStyle = {
+        position: 'absolute',
+        right: '10px',
+        top: '13px',
+        cursor: 'pointer',
+        fontSize: '0.9rem',
+        color: '#555',
+        userSelect: 'none',
+    };
 
     return (
         <div style={formContainerStyle}>
-            <img src="/logo.png" alt="Logo" style={logoTopStyle} /> 
+            <img src="/logo.png" alt="Logo" style={logoTopStyle} />
             <h2>LOG IN TO YOUR ACCOUNT</h2>
 
             <form onSubmit={handleSubmit} style={formStyle}>
-                <input 
-                    type="email" 
-                    placeholder="Email Address" 
+                <input
+                    type="email"
+                    placeholder="Email Address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
-                <input 
-                    type="password" 
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+                <div style={passwordContainerStyle}>
+                    <input
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <span
+                        style={passwordToggleStyle}
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? 'Ocultar' : 'Mostrar'}
+                    </span>
+                </div>
                 <button type="submit" className="btn-primary">LOG IN</button>
             </form>
 

@@ -206,7 +206,7 @@ const ProductDetailPage = () => {
 
                 <p className="product-description">{product.descripcion}</p>
 
-{/* --- SECCIÓN DE RESEÑAS --- */}
+                {/* --- SECCIÓN DE RESEÑAS --- */}
                 <div className="reviews-section">
                     <h3>REVIEWS</h3>
                     {/* Generamos 5 estrellas basadas en el promedio */}
